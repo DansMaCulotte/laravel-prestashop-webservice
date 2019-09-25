@@ -1,37 +1,29 @@
-Laravel Prestashop Web Service
-========
+# Laravel Prestashop Web Service
 
-Laravel 5 wrapper for Prestashop Web Service Library
+[![Latest Version](https://img.shields.io/packagist/v/dansmaculotte/laravel-prestashop-webservice.svg?style=flat-square)](https://packagist.org/packages/dansmaculotte/laravel-prestashop-webservice)
+[![Total Downloads](https://img.shields.io/packagist/dt/dansmaculotte/laravel-prestashop-webservice.svg?style=flat-square)](https://packagist.org/packages/dansmaculotte/laravel-prestashop-webservice)
+[![Build Status](https://img.shields.io/travis/dansmaculotte/laravel-prestashop-webservice/master.svg?style=flat-square)](https://travis-ci.org/dansmaculotte/laravel-prestashop-webservice)
+[![Quality Score](https://img.shields.io/scrutinizer/g/dansmaculotte/laravel-prestashop-webservice.svg?style=flat-square)](https://scrutinizer-ci.com/g/dansmaculotte/laravel-prestashop-webservice)
+[![Code Coverage](https://img.shields.io/coveralls/github/dansmaculotte/laravel-prestashop-webservice.svg?style=flat-square)](https://coveralls.io/github/dansmaculotte/laravel-prestashop-webservice)
 
-Installation
-------------
+
+> Laravel wrapper for Prestashop Web Service Library
+
+## Installation
 
 Require this package with composer using the following command:
 
-```shell
-composer require protechstudio/laravel-prestashop-webservice
-```
-
-After updating composer, add the service provider to the `providers` array in `config/app.php`
-
-```php
-Protechstudio\PrestashopWebService\PrestashopWebServiceProvider::class,
-```
-
-You may also add the Facade in the `aliases` array in `config/app.php`
-
-```php
-'Prestashop' => Protechstudio\PrestashopWebService\PrestashopWebServiceFacade::class,
+```bash
+composer require dansmaculotte/laravel-prestashop-webservice
 ```
 
 Finally publish the configuration file using the artisan command
 
-```shell
-php artisan vendor:publish --provider="Protechstudio\PrestashopWebService\PrestashopWebServiceProvider"
+```bash
+php artisan vendor:publish --provider="dansmaculotte\PrestashopWebService\PrestashopWebServiceProvider"
 ```
 
-Configuration
--------------
+## Configuration
 
 Open the published configuration file at `config/prestashop-webservice.php`:
 
@@ -45,15 +37,15 @@ return [
 
 Then populate the `url` field with the **root url** of the targeted Prestashop installation and `token` field with the API token obtained from Prestashop control panel in Web Service section. If `debug` is `true` Prestashop will return debug information when responding to API requests.
 
-Usage
------
+## Usage
 
 You may use the Prestashop Web Service wrapper in two ways:
+
 ### Using the dependency or method injection
 
 ```php
 ...
-use Protechstudio\PrestashopWebService\PrestashopWebService;
+use dansmaculotte\PrestashopWebService\PrestashopWebService;
 
 class FooController extends Controller
 {
@@ -67,10 +59,11 @@ class FooController extends Controller
     public function bar()
     {
         $opt['resource'] = 'customers';
-        $xml=$this->prestashop->get($opt);
+        $xml = $this->prestashop->get($opt);
     }
 }
 ```
+
 ### Using the Facade
 
 ```php
@@ -82,7 +75,7 @@ use Prestashop;
 public function bar()
 {   
     $opt['resource'] = 'customers';
-    $xml=Prestashop::get($opt);
+    $xml = Prestashop::get($opt);
 }
 ```
 
@@ -102,19 +95,19 @@ You may call `getSchema()` method to retrieve the requested resource schema. You
 
 ```php
 
-$xmlSchema=Prestashop::getSchema('categories'); //returns a SimpleXMLElement instance with the desired schema
+$xmlSchema = Prestashop::getSchema('categories'); //returns a SimpleXMLElement instance with the desired schema
 
-$data=[
-    'name'=>'Clothes',
-    'link_rewrite'=>'clothes',
-    'active'=>true
+$data = [
+    'name' => 'Clothes',
+    'link_rewrite' => 'clothes',
+    'active' => true,
 ];
 
-$postXml=Prestashop::fillSchema($xmlSchema,$data); 
+$postXml = Prestashop::fillSchema($xmlSchema, $data); 
 
 //The xml is now ready for being sent back to the web service to create a new category
 
-$response=Prestashop::add(['resource'=>'categories','postXml'=>$postXml->asXml()]);
+$response = Prestashop::add(['resource' => 'categories', 'postXml' => $postXml->asXml()]);
 
 ```
 
@@ -123,7 +116,7 @@ $response=Prestashop::add(['resource'=>'categories','postXml'=>$postXml->asXml()
 The default behaviour for the `fillSchema` method is to remove the nodes that are not filled. If you want to preserve those nodes (typical update situation) put the third parameter as `false`
 
 ```php
-$putXml=Prestashop::fillSchema($xmlSchema,$data,false); 
+$putXml = Prestashop::fillSchema($xmlSchema, $data, false); 
 ```
 
 #### Removing specific nodes
@@ -131,7 +124,7 @@ $putXml=Prestashop::fillSchema($xmlSchema,$data,false);
 When preserving unfilled nodes from removal you may specify some nodes to be removed as the fourth argument (this may be useful when updating a resource with some readonly nodes that would trigger error 400):
 
 ```php
-$putXml=Prestashop::fillSchema($xmlSchema,$data,false,['manufacturer_name','quantity']);
+$putXml = Prestashop::fillSchema($xmlSchema, $data, false, ['manufacturer_name', 'quantity']);
 //manufacturer_name and quantity only will be removed from the XML
 ```
 
@@ -149,7 +142,7 @@ If the node has a language child you may use a simple string for the value if yo
     </name>
     ...
 */
-$data= ['name'=>'Clothes'];
+$data = ['name' => 'Clothes'];
 ```
 
 If your shops has more than one language installed you may pass the node value as an array where the key is the language ID.
@@ -164,11 +157,11 @@ If your shops has more than one language installed you may pass the node value a
     </name>
     ... 
 */
-$data= [
-    'name'=>[
+$data = [
+    'name' => [
         1 => 'Clothes',
-        2 => 'Abbigliamento'
-    ]
+        2 => 'Abbigliamento',
+    ],
 ];
 ```
 _Please note that if you don't provide an array of values keyed by the language ID all language values will have the same value._
@@ -199,7 +192,7 @@ You can prepare the array data map for the `fillSchema` method in this way:
 $data => [
     ...
     'associations' => [
-        'categories' =>[
+        'categories' => [
             [ 'category' => ['id' => 4] ],
             [ 'category' => ['id' => 5] ],
             [ 'category' => ['id' => 11] ],
@@ -208,18 +201,18 @@ $data => [
             [
                 'product_feature' => [
                     'id' => 5,
-                    'id_feature_value' => 94
-                ]
+                    'id_feature_value' => 94,
+                ],
             ],
             [
                 'product_feature' => [
                     'id' => 1,
-                    'id_feature_value' => 2
-                ]
-            ]
-        ]
-    ]
-]
+                    'id_feature_value' => 2,
+                ],
+            ],
+        ],
+    ],
+];
 ```
 The result will be this as expected:
 
@@ -249,3 +242,21 @@ The result will be this as expected:
     </product_features>
 ...
 ```
+
+### Testing
+
+```bash
+composer test
+```
+
+### Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
