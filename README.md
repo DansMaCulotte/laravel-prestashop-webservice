@@ -20,7 +20,7 @@ composer require dansmaculotte/laravel-prestashop-webservice
 Finally publish the configuration file using the artisan command
 
 ```bash
-php artisan vendor:publish --provider="dansmaculotte\PrestashopWebService\PrestashopWebServiceProvider"
+php artisan vendor:publish --provider="DansMaCulotte\PrestashopWebService\PrestashopWebServiceProvider"
 ```
 
 ## Configuration
@@ -45,7 +45,7 @@ You may use the Prestashop Web Service wrapper in two ways:
 
 ```php
 ...
-use dansmaculotte\PrestashopWebService\PrestashopWebService;
+use DansMaCulotte\PrestashopWebService\PrestashopWebService;
 
 class FooController extends Controller
 {
