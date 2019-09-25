@@ -1,8 +1,7 @@
 <?php
 
-namespace Protechstudio\PrestashopWebService;
+namespace DansMaCulotte\PrestashopWebService;
 
 class PrestaShopWebserviceException extends \Exception
 {
-
 }

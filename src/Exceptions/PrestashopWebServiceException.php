@@ -1,10 +1,9 @@
 <?php
 
-namespace Protechstudio\PrestashopWebService\Exceptions;
+namespace DansMaCulotte\PrestashopWebService\Exceptions;
 
-use Protechstudio\PrestashopWebService\PrestaShopWebserviceException as PSWException;
+use DansMaCulotte\PrestashopWebService\PrestaShopWebserviceException as PSWException;
 
 class PrestashopWebServiceException extends PSWException
 {
-
 }

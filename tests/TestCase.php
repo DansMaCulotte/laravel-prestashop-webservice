@@ -1,6 +1,6 @@
 <?php
 
-namespace Protechstudio\PrestashopWebService\Tests;
+namespace DansMaCulotte\PrestashopWebService\Tests;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -13,7 +13,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Protechstudio\PrestashopWebService\PrestashopWebServiceProvider::class,
+            \DansMaCulotte\PrestashopWebService\PrestashopWebServiceProvider::class,
         ];
     }
     /**
@@ -25,13 +25,13 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('app.debug', true);
-        $app['config']->set('prestashop-webservice', require('config/prestashop-webservice.php'));
+        $app['config']->set('prestashop-webservice', require(__DIR__ . '/config/prestashop-webservice.php'));
     }
 
     protected function getPackageAliases($app)
     {
         return [
-            'Prestashop' => \Protechstudio\PrestashopWebService\PrestashopWebServiceFacade::class,
+            'Prestashop' => \DansMaCulotte\PrestashopWebService\PrestashopWebServiceFacade::class,
         ];
     }
 }

@@ -1,8 +1,7 @@
 <?php
 
-namespace Protechstudio\PrestashopWebService;
+namespace DansMaCulotte\PrestashopWebService;
 
-use PrestaShopWebservice as PSLibrary;
 use SimpleXMLElement;
 
 class PrestashopWebService extends PrestashopWebServiceLibrary
@@ -11,9 +10,10 @@ class PrestashopWebService extends PrestashopWebServiceLibrary
     /**
      * Retrieve the resource schema
      *
-     * @param $resource , $schema
+     * @param $resource
+     * @param string $schema
      * @return SimpleXMLElement
-     * @throws PrestaShopWebserviceException
+     * @throws Exceptions\PrestashopWebServiceException
      */
     public function getSchema($resource, $schema = 'blank')
     {
@@ -35,7 +35,7 @@ class PrestashopWebService extends PrestashopWebServiceLibrary
         SimpleXMLElement $xmlSchema,
         $data,
         $removeUselessNodes = true,
-        $removeSpecificNodes = array()
+        $removeSpecificNodes = []
     ) {
         $resource = $xmlSchema->children()->children();
         foreach ($data as $key => $value) {
@@ -74,7 +74,7 @@ class PrestashopWebService extends PrestashopWebServiceLibrary
     private function fillLanguageNode($node, $data)
     {
         for ($i = 0; $i < count($node->language); $i++) {
-            $node->language[$i] = $this->getLanguageValue($data, (int)$node->language[$i]['id']->__toString());
+            $node->language[$i] = $this->getLanguageValue($data, (int) $node->language[$i]['id']->__toString());
         }
     }
 
@@ -86,13 +86,13 @@ class PrestashopWebService extends PrestashopWebServiceLibrary
     private function processNode(SimpleXMLElement $node, $dataKey, $dataValue)
     {
         if (is_int($dataKey)) {
-            if ($dataKey===0) {
+            if ($dataKey === 0) {
                 $this->emptyNode($node);
             }
             $this->createNode($node, $dataValue);
-        } elseif (property_exists($node->$dataKey, 'language')) {
+        } else if (property_exists($node->$dataKey, 'language')) {
             $this->fillLanguageNode($node->$dataKey, $dataValue);
-        } elseif (is_array($dataValue)) {
+        } else if (is_array($dataValue)) {
             foreach ($dataValue as $key => $value) {
                 $this->processNode($node->$dataKey, $key, $value);
             }
@@ -114,6 +114,7 @@ class PrestashopWebService extends PrestashopWebServiceLibrary
                 $uselessNodes[] = $key;
             }
         }
+
         foreach ($uselessNodes as $key) {
             unset($resource->$key);
         }
@@ -156,10 +157,11 @@ class PrestashopWebService extends PrestashopWebServiceLibrary
      */
     private function emptyNode(SimpleXMLElement $node)
     {
-        $nodeNames = array();
+        $nodeNames = [];
         foreach ($node->children() as $key => $value) {
             $nodeNames[]=$key;
         }
+
         foreach ($nodeNames as $nodeName) {
             unset($node->$nodeName);
         }

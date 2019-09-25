@@ -1,12 +1,12 @@
 <?php
 
-namespace Protechstudio\PrestashopWebService\Tests;
+namespace DansMaCulotte\PrestashopWebService\Tests;
 
-use Protechstudio\PrestashopWebService\PrestashopWebService;
-use Protechstudio\PrestashopWebService\Exceptions\PrestashopWebServiceException;
-use Protechstudio\PrestashopWebService\Exceptions\PrestashopWebServiceRequestException;
-use Protechstudio\PrestashopWebService\PrestashopWebServiceLibrary;
-use Prestashop;
+use DansMaCulotte\PrestashopWebService\PrestashopWebServiceFacade as Prestashop;
+use DansMaCulotte\PrestashopWebService\Exceptions\PrestashopWebServiceException;
+use DansMaCulotte\PrestashopWebService\Exceptions\PrestashopWebServiceRequestException;
+use DansMaCulotte\PrestashopWebService\PrestashopWebService;
+use DansMaCulotte\PrestashopWebService\PrestashopWebServiceLibrary;
 
 class PrestashopWebServiceTest extends TestCase
 {
@@ -15,16 +15,16 @@ class PrestashopWebServiceTest extends TestCase
     {
         $this->assertInstanceOf(PrestashopWebService::class, Prestashop::getFacadeRoot());
     }
-    
+
     /** @test */
     public function test_request_is_correct()
     {
         $requestResponseStub = require(__DIR__.'/requests/category-schema.php');
 
-         list($header, $body) = explode("\n\n", $requestResponseStub[0], 2);
-         $header_size = strlen($header) + 2;
+        list($header, $body) = explode("\n\n", $requestResponseStub[0], 2);
+        $header_size = strlen($header) + 2;
 
-         $this->assertEquals($header_size, $requestResponseStub[1]['header_size']);
+        $this->assertEquals($header_size, $requestResponseStub[1]['header_size']);
     }
 
     /** @test */
@@ -34,7 +34,7 @@ class PrestashopWebServiceTest extends TestCase
         $ps = $this->getMockedLibrary('executeCurl', $requestResponseStub);
 
         $xml = $ps->get(['resource' => 'categories']);
-        
+
         $this->assertEquals('prestashop', $xml->getName());
         $this->assertEquals('category', $xml->children()[0]->getName());
     }
@@ -146,4 +146,3 @@ class PrestashopWebServiceTest extends TestCase
         }
     }
 }
-

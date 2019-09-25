@@ -1,14 +1,12 @@
 <?php
 
-namespace Protechstudio\PrestashopWebService;
+namespace DansMaCulotte\PrestashopWebService;
 
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
-class PrestashopWebServiceProvider extends ServiceProvider
+class PrestashopWebServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-
-    protected $defer = true;
-
     /**
      * Bootstrap the application services.
      *
@@ -16,7 +14,11 @@ class PrestashopWebServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publish();
+        $this->mergeConfigFrom(__DIR__.'/../config/prestashop-webservice.php', 'prestashop-webservice');
+
+        $this->publishes([
+            __DIR__.'/../config/prestashop-webservice.php' => config_path('prestashop-webservice.php'),
+        ]);
     }
 
     /**
@@ -26,8 +28,6 @@ class PrestashopWebServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerConfig();
-
         $this->app->singleton(PrestashopWebService::class, function () {
             return new PrestashopWebService(
                 config('prestashop-webservice.url'),
@@ -35,22 +35,12 @@ class PrestashopWebServiceProvider extends ServiceProvider
                 config('prestashop-webservice.debug')
             );
         });
+
+        $this->app->alias(PrestashopWebService::class, 'prestashop-webservice');
     }
 
     public function provides()
     {
-        return ['Protechstudio\PrestashopWebService\PrestashopWebService'];
-    }
-
-    private function publish()
-    {
-        $this->publishes([
-            __DIR__ . '/config.php' => config_path('prestashop-webservice.php'),
-        ], 'config');
-    }
-
-    private function registerConfig()
-    {
-        $this->mergeConfigFrom(__DIR__ . '/config.php', 'prestashop-webservice');
+        return [PrestashopWebService::class];
     }
 }
