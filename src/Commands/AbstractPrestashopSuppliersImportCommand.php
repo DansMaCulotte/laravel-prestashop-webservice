@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Console\Commands;
+namespace DansMaCulotte\PrestashopWebService\Commands;
 
 use DansMaCulotte\PrestashopWebService\Exceptions\PrestashopWebServiceException;
 use DansMaCulotte\PrestashopWebService\PrestashopWebService;
 use Illuminate\Console\Command;
 
-abstract class PrestashopSuppliersImportCommand extends Command
+abstract class AbstractPrestashopSuppliersImportCommand extends Command
 {
     const PRESTASHOP_RESOURCE_NAME = 'suppliers';
 
