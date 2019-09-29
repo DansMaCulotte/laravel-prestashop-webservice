@@ -2,10 +2,10 @@
 
 namespace DansMaCulotte\PrestashopWebService\Tests;
 
-use DansMaCulotte\PrestashopWebService\PrestashopWebServiceFacade as Prestashop;
 use DansMaCulotte\PrestashopWebService\Exceptions\PrestashopWebServiceException;
 use DansMaCulotte\PrestashopWebService\Exceptions\PrestashopWebServiceRequestException;
 use DansMaCulotte\PrestashopWebService\PrestashopWebService;
+use DansMaCulotte\PrestashopWebService\PrestashopWebServiceFacade as Prestashop;
 use DansMaCulotte\PrestashopWebService\PrestashopWebServiceLibrary;
 
 class PrestashopWebServiceTest extends TestCase

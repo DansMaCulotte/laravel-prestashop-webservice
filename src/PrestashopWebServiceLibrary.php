@@ -270,7 +270,7 @@ class PrestashopWebServiceLibrary
             }
 
             return $xml;
-        } else if (!$suppressExceptions) {
+        } elseif (!$suppressExceptions) {
             throw new PrestashopWebServiceException('HTTP response is empty');
         }
 
@@ -342,7 +342,7 @@ class PrestashopWebServiceLibrary
     {
         if (isset($options['url'])) {
             $url = $options['url'];
-        } else if (isset($options['resource'])) {
+        } elseif (isset($options['resource'])) {
             $url = $this->url.'/api/'.$options['resource'];
             $url_params = [];
             if (isset($options['id'])) {
@@ -381,7 +381,7 @@ class PrestashopWebServiceLibrary
     {
         if (isset($options['url'])) {
             $url = $options['url'];
-        } else if (isset($options['resource'])) {
+        } elseif (isset($options['resource'])) {
             $url = $this->url.'/api/'.$options['resource'];
             $url_params = [];
             if (isset($options['id'])) {
@@ -423,7 +423,7 @@ class PrestashopWebServiceLibrary
         $xml = '';
         if (isset($options['url'])) {
             $url = $options['url'];
-        } else if ((isset($options['resource'], $options['id']) || isset($options['url'])) && $options['putXml']) {
+        } elseif ((isset($options['resource'], $options['id']) || isset($options['url'])) && $options['putXml']) {
             if (isset($options['url'])) {
                 $url = $options['url'];
             } else {
@@ -474,7 +474,7 @@ class PrestashopWebServiceLibrary
     {
         if (isset($options['url'])) {
             $url = $options['url'];
-        } else if (isset($options['resource']) && isset($options['id'])) {
+        } elseif (isset($options['resource']) && isset($options['id'])) {
             if (is_array($options['id'])) {
                 $url = $this->url.'/api/'.$options['resource'].'/?id=['.implode(',', $options['id']).']';
             } else {

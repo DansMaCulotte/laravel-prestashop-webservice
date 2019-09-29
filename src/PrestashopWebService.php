@@ -90,9 +90,9 @@ class PrestashopWebService extends PrestashopWebServiceLibrary
                 $this->emptyNode($node);
             }
             $this->createNode($node, $dataValue);
-        } else if (property_exists($node->$dataKey, 'language')) {
+        } elseif (property_exists($node->$dataKey, 'language')) {
             $this->fillLanguageNode($node->$dataKey, $dataValue);
-        } else if (is_array($dataValue)) {
+        } elseif (is_array($dataValue)) {
             foreach ($dataValue as $key => $value) {
                 $this->processNode($node->$dataKey, $key, $value);
             }
